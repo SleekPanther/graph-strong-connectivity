@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class StrongConnectivityGraph {
+public class StrongConnectivity {
 	public boolean isStronglyConnected(ArrayList<ArrayList<Integer>> graph){
 		int startingVertex = 0;
 
@@ -66,7 +66,7 @@ public class StrongConnectivityGraph {
 	}
 	
 	public static void main(String[] args) {
-		StrongConnectivityGraph strongConnectivityFinder = new StrongConnectivityGraph();
+		StrongConnectivity strongConnectivityFinder = new StrongConnectivity();
 
 		ArrayList<ArrayList<Integer>> graph1 = new ArrayList<ArrayList<Integer>>();
 		graph1.add(new ArrayList<Integer>(Arrays.asList(1, 3)));
