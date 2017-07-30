@@ -5,18 +5,18 @@ public class StrongConnectivity {
 		int startingVertex = 0;
 
 		System.out.println("Original Graph");
-		boolean allVerticesReachable = breadthFirstSearch(graph, startingVertex);
+		boolean allVerticesReachableInOriginal = breadthFirstSearch(graph, startingVertex);
 		
 		System.out.println("Reversed Graph");
 		ArrayList<ArrayList<Integer>> reversedGraph = reverseGraphEdges(graph);
 		boolean allVerticesReachableInReversed = breadthFirstSearch(reversedGraph, startingVertex);
 		
-		return allVerticesReachable && allVerticesReachableInReversed;
+		return allVerticesReachableInOriginal && allVerticesReachableInReversed;
 	}
 
 	private ArrayList<ArrayList<Integer>> reverseGraphEdges(ArrayList<ArrayList<Integer>> graph){
 		ArrayList<ArrayList<Integer>> reversedGraph = new ArrayList<ArrayList<Integer>>();
-		//Add placeholders for each vertex
+		//Add placeholders for each vertex in the adjacency List
 		for(int u=0; u<graph.size(); u++){
 			reversedGraph.add(new ArrayList<Integer>());
 		}
@@ -25,29 +25,27 @@ public class StrongConnectivity {
 		for(int u=0; u<graph.size(); u++){
 			for(int v : graph.get(u)){
 				reversedGraph.get(v).add(u);
-				// System.out.println(v+"-->"+u);
-				// System.out.println(u+"-->"+v);
 			}
 		}
 		return reversedGraph;
 	}
 
 	public boolean breadthFirstSearch(ArrayList<ArrayList<Integer>> graph, int startingVertex){
-		Queue<Integer> vertexQueue = new LinkedList<Integer>();		//queue where new un-visited nodes are stored
+		Queue<Integer> vertexQueue = new LinkedList<Integer>();		//queue where new un-visited vertices are stored
 		vertexQueue.add(startingVertex);		//initialize queue with the starting vertex
 		
-		boolean[] visitedNodes = new boolean[graph.size()];		
-		ArrayList<Integer> nodesInVisitedOrder = new ArrayList<Integer>();	//list of nodes in the order that they are visited. Printed at the end of the algorithm
+		boolean[] visitedNodes = new boolean[graph.size()];
+		ArrayList<Integer> nodesInVisitedOrder = new ArrayList<Integer>();	//Keep track of visitation order
 		
-		while(!vertexQueue.isEmpty()){		//repeat the algorithm until queue is empty
+		while(!vertexQueue.isEmpty()){
 			int nodeRemovedFromQueue = vertexQueue.remove();		//pick a node from the head of the queue
 			
 			if(!visitedNodes[nodeRemovedFromQueue]){		//If NOT visited
 				visitedNodes[nodeRemovedFromQueue]=true;	//set to visited
-				nodesInVisitedOrder.add(nodeRemovedFromQueue);	//append to list of nodes in order they are visited
+				nodesInVisitedOrder.add(nodeRemovedFromQueue);	//append to list of vertices in order they are visited
 				
-				ArrayList<Integer> rowOfNodes = graph.get(nodeRemovedFromQueue);	//get a list of all nodes adjacent to the current Node
-				for(int v: rowOfNodes){			//Iterate over all nodes adjacent to the current node
+				ArrayList<Integer> incidentVertices = graph.get(nodeRemovedFromQueue);	//get a list of all vertices adjacent to the current Node
+				for(int v: incidentVertices){			//Iterate over all vertices adjacent to the current node
 					if(!visitedNodes[v]){		//if it's NOT visited, add to queue
 						vertexQueue.add(v);
 					}
